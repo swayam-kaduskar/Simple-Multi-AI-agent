@@ -264,11 +264,8 @@
         const sendButton = document.getElementById('sendButton');
         const typingIndicator = document.getElementById('typingIndicator');
 
-        // IMPORTANT: Replace this with your Render deployment URL
-        // Example: 'https://https://swayam-kaduskar.github.io/Simple-Multi-AI-agent/'
-        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? '/chat'
-            : 'https://swayam-kaduskar.github.io/Simple-Multi-AI-agent/'; 
+        // API URL for chat messages
+        const API_URL = '/chat'; 
 
         function addMessage(content, isUser) {
             const messageDiv = document.createElement('div');
