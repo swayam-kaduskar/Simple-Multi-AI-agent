@@ -39,7 +39,7 @@ jobs:
 
       - name: Run Multi-AI Agent Script
         env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}  # Set API key from secrets
+          GOOGLE_API_KEY: ${{ github.secrets.GOOGLE_API_KEY }}  # Set API key from secrets
         run: python agent.py  # Run the main script
 
       - name: Create static build for GitHub Pages
