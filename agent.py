@@ -5,6 +5,37 @@ from google.adk.tools import AgentTool, google_search
 from google.genai import types
 from typing import Any
 from collections.abc import Callable
+from flask import Flask, request, jsonify
+import time
+
+
+
+
+
+pp = Flask(__name__)
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_message = request.json.get('message')
+    
+    # Simulate some processing time (like AI computation)
+    time.sleep(1)
+    
+    # Generate a response (for simplicity, echoing the message)
+    bot_response = f"You said: {user_message}. I'm the Research Agent!"
+    
+    # Return a JSON response
+    return jsonify({'response': bot_response})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
+
+
+
+    
 
 retry_config = types.HttpRetryOptions(
     attempts=5,
