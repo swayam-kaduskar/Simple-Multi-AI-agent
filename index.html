@@ -264,6 +264,12 @@
         const sendButton = document.getElementById('sendButton');
         const typingIndicator = document.getElementById('typingIndicator');
 
+        // IMPORTANT: Replace this with your Render deployment URL
+        // Example: 'https://your-app-name.onrender.com/chat'
+        const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? '/chat'  // Use relative URL when running locally
+            : 'https://your-app-name.onrender.com/chat';  // Replace with your Render URL
+
         function addMessage(content, isUser) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
@@ -296,7 +302,7 @@
             showTyping();
 
             try {
-                const response = await fetch('/chat', {
+                const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -305,15 +311,20 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`Server returned ${response.status}`);
                 }
 
                 const data = await response.json();
                 hideTyping();
-                addMessage(data.response, false);
+                
+                if (data.error) {
+                    addMessage(`Error: ${data.error}`, false);
+                } else {
+                    addMessage(data.response, false);
+                }
             } catch (error) {
                 hideTyping();
-                addMessage('Sorry, I encountered an error. Please try again.', false);
+                addMessage('Sorry, I encountered an error connecting to the server. Please make sure the backend is deployed and the API_URL is configured correctly.', false);
                 console.error('Error:', error);
             } finally {
                 sendButton.disabled = false;
